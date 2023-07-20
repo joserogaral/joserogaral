@@ -1,0 +1,190 @@
+
+<?php
+
+$msg=(isset($_POST['message']))?$_POST['message']:"";
+$nom=(isset($_POST['nom']))?$_POST['nom']:"";
+$accion=(isset($_POST['accion']))?$_POST['accion']:"";
+$date= date("d/m/y");
+
+include('../bd/bd.php');
+
+switch($accion){
+    case "Envoyer":
+          $sentenciaSQLkl= $conexionetll->prepare("INSERT INTO avis (pseu, coment, date) VALUES (:pseu, :coment, :date);");
+          $sentenciaSQLkl->bindParam(':coment',$msg);
+          $sentenciaSQLkl->bindParam(':pseu',$nom);
+          $sentenciaSQLkl->bindParam(':date',$date);
+          $sentenciaSQLkl->execute();
+          header("Location:avis.php");
+          break;
+    }
+?>
+
+<?php 
+            include ("../bd/bd.php");
+
+            $sentenciaSQLw=$conexionet->prepare("SELECT * FROM ora");
+            $sentenciaSQLw->execute();
+            $listep=$sentenciaSQLw->fetchALL(PDO::FETCH_ASSOC);
+?>
+<!doctype html>
+<html lang="en">
+ 
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="avis.css" >
+</head>
+
+<body> 
+  <header>
+  <div>
+        <div class="info">
+
+            <div class="images">
+                <div>
+                    <a href="https://www.facebook.com/" target="_blank">
+                    <img src="../imagenes/imgs/logo-facebook-blanc.png" alt="Facebook">
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.instagram.com/" target="_blank">
+                    <img src="../imagenes/imgs/logo-instagram-blanc-1.png.webp" alt="Instagram">
+                    </a>
+                </div>
+            </div>
+    
+
+                    <div>
+                    <h1>0634875667 / info@garageparrot</h1>
+                    </div>
+        </div>
+
+
+                                    
+            <div class="menu">
+
+                <div>
+                    <img src="../imagenes/imgs/VPARROT.png" alt="garagevparrot">
+                </div>
+
+                <div>
+                    <nav>
+                        <ul class="menu1">
+                            <li><a href="../Accueil/accueil.oho">ACCUEIL</a></li>
+                            <li class="navi"><a href="#">SERVICES</a>
+                                <ul class="subl">
+                                    <li><a href="../Services/services.php">Mécanique et Carrosserie</a></li>
+                                    <li><a href="../Ventevoi/ventevoi.php">Véhicules d'occasion</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="../Apropos/apropos.php">A PROPOS</a></li>
+                            <li><a href="../Contact/contact.php">CONTACT</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+    </div> 
+  </header>
+  <main>
+  <section class="cont">
+        <div class="form">
+            <div>
+                <h2>Ėcrivez-nous!</h2>
+                <br><br>
+                <p>Nous voulons entendre votre opinion, c'est très important pour nous. </strong><br><br>
+                <br>
+                Votre avis nous aide à améliorer notre service.</p>
+                    <br><br><br>
+            </div>
+            <div class="container">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="h3">Pseudonime</label>
+                    <input type="text" class="form-control" id="nom" name="nom" aria-describedby="emailHelp" placeholder="Enter email">
+                    
+                </div>
+                <div class="col-auto">
+                    <label for="exampleInputPassword1" class="h3">Message</label>
+                    <input type="text" class="form-control" id="message" name="message" placeholder="Password" style="height: 150px">
+                </div>
+                <br><br>
+                <button class="d-grid gap-1 col-5 mx-auto" type="submit" name="accion" value="Envoyer" class="btn btn-primary btn-lg">Envoyer</button>
+            </form>
+        </div>
+        </div>
+    </section>
+  </main>
+  <footer>
+  <div class="foot">
+        <div class="fan">
+            <img src="../imagenes/imgs/VPARROT.png" alt="logo">
+                <h3> Nos lignes téléphoniques de service client sont à 
+                votre service du lundi au vendredi de 9h00 à 18h00.</h3>
+        </div>
+
+        <div class="chi">
+            <div class="hy">
+                <div>
+                    <nav>
+                        <ul class="men">
+                            <li><a href="../Accueil/accueil.php">ACCUEIL</a></li>
+                            <li><a href="../Services/services.php">SERVICES</a></li>
+                            <li><a href="../Apropos/apropos.php">A PROPOS</a></li>
+                            <li><a href="../Contact/contact.php">CONTACT</a></li>
+                            <li><a href="../admin/login.php">CONNEXION</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div >
+                    <?php foreach($listep as $pm){ ?>
+                    <ul class="time">
+                        <h2>Nos heures d'ouverture</h2>
+                        <li> <h2>LUNDI A VENDREDI</h2> </li>
+                        <li> <h2>Du <?php echo $pm['hi'] ?> a <?php echo $pm['hf'] ?> et du <?php echo $pm['hic'] ?> a <?php echo $pm['hfc'] ?>.</h2> </li>
+                        <li> <h2>SAMEDI</h2> </li>
+                        <li> <h2>Du <?php echo $pm['his'] ?> a <?php echo $pm['hfs'] ?>.</h2> </li>
+                    </ul>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="fi">
+                <div class="red">
+                    <div>
+                        <a href="https://www.facebook.com/" target="_blank">
+                        <img src="../imagenes/imgs/logo-facebook-noir.png" alt="Facebook">
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="https://www.instagram.com/" target="_blank">
+                        <img src="../imagenes/imgs/Logo-Instagram-noir-1.png" alt="Instagram">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="fo">
+                    <h1> Tél: 0634875667 <br> <br>Email: info@garageparrot</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
